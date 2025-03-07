@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كارنيه الطالب الجامعي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="student_id.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="card">  <!-- تم إضافة id هنا -->
+            <div class="header">
+                <img src="svu.png" alt="شعار الجامعة" class="logo">
+                <h4>جامعة جنوب الوادى</h4>
+                <img src="art.png" alt="art1-removebg-preview" alt="شعار الكلية" class="logo">
+            </div>
+            <h3>كلية الآداب &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+            <div class="student-info">
+                <div class="info">
+                    <p><strong>اسم الطالب:</strong> <span id="student-name"></span></p>
+                    <p><strong>الفرقة:</strong> <span id="student-year"></span></p>
+                    <p><strong>الشعبة:</strong> <span id="specialization"></span></p>
+                    <p><strong>العام الجامعي:</strong> <span id="academic-year"></span></p>
+                </div>
+                <img id="student-photo" src="student_photo.jpg" alt="صورة الطالب" class="student-photo">
+            </div>
+        </div>
+        <button onclick="downloadCard()">تحميل الكارنيه</button>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025 <a href="https://wa.me/201027888008">Ziad Hagagy</a></p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function downloadCard() {
+    let cardElement = document.getElementById('card');
+
+    html2canvas(cardElement, {
+        scale: 2,
+        useCORS: true, // مهم جدًا للسماح بالتقاط الصور
+        allowTaint: true
+    }).then(function(canvas) {
+        let link = document.createElement('a');
+        link.href = canvas.toDataURL('image/jpeg', 1.0);
+        link.download = 'student_card.jpg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+}
+
+
+
+window.onload = function() {
+    // جلب البيانات المخزنة
+    const studentName = localStorage.getItem('studentName') || "اسم الطالب";
+    const studentYear = localStorage.getItem('studentYear') || "الفرقة";
+    const specialization = localStorage.getItem('specialization') || "الشعبة";
+    const academicYear = localStorage.getItem('academicYear') || "العام الجامعي";
+    const studentPhoto = localStorage.getItem('studentPhoto');
+
+    // تعيين البيانات في مكانها
+    document.getElementById('student-name').textContent = studentName;
+    document.getElementById('student-year').textContent = studentYear;
+    document.getElementById('specialization').textContent = specialization;
+    document.getElementById('academic-year').textContent = academicYear;
+
+    // تعيين صورة الطالب لو متاحة
+    if (studentPhoto) {
+        document.getElementById('student-photo').src = studentPhoto;
+    }
+}
+
+function downloadCard() {
+    let cardElement = document.getElementById('card');
+    let studentName = localStorage.getItem('studentName') || "student_card";
+
+    html2canvas(cardElement, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true
+    }).then(function(canvas) {
+        let link = document.createElement('a');
+        link.href = canvas.toDataURL('image/jpeg', 1.0);
+        link.download = studentName.replace(/\s+/g, '_') + '.jpg'; // اسم الملف يكون اسم الطالب
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+}
+
+if (performance.navigation.type === 1) {
+        window.location.href = "./index.html"; // استبدلها بصفحة التسجيل الفعلية
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // تعطيل الزر الأيمن
+document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    // تعطيل اختصارات F12 و Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+U
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) || 
+            (e.ctrlKey && e.key === "U")) {
+            e.preventDefault();
+        }
+    });
+
+
+
+
+    
+    </script>
+</body>
+</html>

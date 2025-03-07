@@ -1,0 +1,233 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* overflow: hidden; */
+    direction: rtl;
+}
+
+.container {
+    background-color: #fff;
+    padding: 2em 3em;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    animation: fadeIn 1s ease-in-out;
+}
+
+footer {
+    margin-top: 1em;
+    color: #fff;
+    text-align: center;
+}
+
+footer a {
+    color: #ffd700;
+    text-decoration: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    margin-bottom: 1em;
+    color: #333;
+    font-size: 2em;
+    position: relative;
+}
+
+h1 i {
+    color: #6e8efb;
+    margin-left: 0.5em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    margin-bottom: 1.5em;
+    position: relative;
+    text-align: right;
+}
+
+label {
+    margin-bottom: 0.5em;
+    color: #555;
+    font-weight: bold;
+    display: block;
+}
+
+label i {
+    margin-left: 0.5em;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"] {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus {
+    border-color: #6e8efb;
+    outline: none;
+}
+
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-label {
+    display: block;
+    background-color: #6e8efb;
+    color: #fff;
+    padding: 0.7em;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.file-label:hover {
+    background-color: #5a77db;
+    transform: translateY(-2px);
+}
+
+.file-input-wrapper input[type="file"] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.image-preview {
+    margin-top: 1em;
+    max-width: 200px; /* Adjust this value to make the image larger */
+    max-height: 150px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+}
+
+.button-group {
+    margin-top: 1.5em;
+}
+
+button {
+    padding: 0.7em;
+    border: none;
+    border-radius: 5px;
+    background-color: #6e8efb;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button i {
+    margin-left: 0.5em;
+}
+
+button:hover {
+    background-color: #5a77db;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 85%;
+        padding: 1.5em;
+        max-width: 450px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .input-group {
+        margin-bottom: 1em;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="file"] {
+        font-size: 1em;
+        padding: 0.6em;
+    }
+    
+    .file-label {
+        font-size: 0.9em;
+        padding: 0.6em;
+    }
+    
+    .image-preview {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    button {
+        font-size: 1em;
+        padding: 0.7em;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 90%;
+        padding: 1em;
+        box-shadow: none;
+        max-width: 400px;
+    }
+    
+    h1 {
+        font-size: 1.6em;
+    }
+    
+    .input-group {
+        margin-bottom: 0.8em;
+    }
+    
+    .file-label {
+        font-size: 0.85em;
+    }
+    
+    .image-preview {
+        max-width: 85%;
+        height: auto;
+        margin: 0 auto;
+    }
+    
+    button {
+        font-size: 0.9em;
+        padding: 0.6em;
+        width: 100%;
+    }
+}
