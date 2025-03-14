@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./search.css">
+    <title>صفحة الاستعلام والتسجيل</title>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+        // 🔹 إعداد Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyACSaxwz6-ef5GygWAbDp0DJKEKe-fG49s",
+            authDomain: "project-of-arts.firebaseapp.com",
+            databaseURL: "https://project-of-arts-default-rtdb.firebaseio.com",
+            projectId: "project-of-arts",
+            storageBucket: "project-of-arts.firebasestorage.app",
+            messagingSenderId: "779880030664",
+            appId: "1:779880030664:web:8ec84af51d78d9a38ca0fd"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // 🔹 البحث عن الطالب وعرض بياناته
+        window.searchStudent = function () {
+            const studentName = document.getElementById("search-box").value.trim();
+
+            if (studentName.split(" ").length < 4) {
+                alert("❌ يجب إدخال الاسم الرباعي للبحث.");
+                return;
+            }
+
+            const studentRef = ref(database, "students/" + studentName);
+
+            get(studentRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById("student-name").textContent = data.name;
+                    document.getElementById("student-year").textContent = data.year;
+                    document.getElementById("specialization").textContent = data.specialization;
+                    document.getElementById("academic-year").textContent = data.academicYear;
+                    document.getElementById("student-photo").src = data.photo || "default_student.jpg";
+
+                    document.getElementById("student-card").style.display = "block";
+                } else {
+                    alert("❌ لا يوجد طالب بهذا الاسم في قاعدة البيانات.");
+                }
+            }).catch((error) => {
+                console.error("❌ خطأ أثناء البحث:", error);
+            });
+        };
+
+        // 🔹 تحميل الكارنيه كصورة
+        window.downloadCard = function () {
+            let cardElement = document.getElementById('card');
+            let studentName = document.getElementById('student-name').textContent || "student_card";
+
+            html2canvas(cardElement, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true
+            }).then(function(canvas) {
+                let link = document.createElement('a');
+                link.href = canvas.toDataURL('image/jpeg', 1.0);
+                link.download = studentName.replace(/\s+/g, '_') + '.jpg'; // اسم الملف يكون اسم الطالب
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        };
+
+
+
+
+        // جلب العناصر
+const toggleBtn = document.getElementById('toggleBtn');
+const navLinks = document.getElementById('navLinks');
+const body = document.body;
+
+// إضافة حدث النقر على زر التبديل
+toggleBtn.addEventListener('click', () => {
+    // تبديل عرض الروابط
+    navLinks.classList.toggle('active');
+
+    // إضافة أو إزالة فئة "menu-open" من الجسم
+    body.classList.toggle('menu-open');
+});
+
+
+
+// تعطيل الزر الأيمن
+document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    // تعطيل اختصارات F12 و Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+U
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) || 
+            (e.ctrlKey && e.key === "U")) {
+            e.preventDefault();
+        }
+    });
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    
+</head>
+<body>
+
+    <!-- ناف بار -->
+    <nav class="navbar">
+        <!-- لوجو النص -->
+        <div class="navlogo">كلية الآداب - قسم المكتبات</div>
+
+        <!-- الروابط -->
+        <ul class="nav-links" id="navLinks">
+            <li><a href="./index.html">تسجيل جديد</a></li>
+            <li><a href="./search.html">استعلام</a></li>
+            <li><a href="./login.html">الاحصائيات والتقارير</a></li>
+            <li><a href="./member.html">أعضاء المجموعة</a></li>
+        </ul>
+
+        <!-- زر التبديل للهواتف -->
+        <button class="toggle-btn" id="toggleBtn">
+            ☰
+        </button>
+    </nav>
+
+    <!-- Search Section -->
+    <div class="search-container">
+        <input type="text" id="search-box" class="search-box" placeholder="ادخل الاسم الرباعي للبحث...">
+        <button class="search-button" onclick="searchStudent()">بحث</button>
+    </div>
+
+   <!-- تصميم الكارنيه -->
+<div class="container">
+    <div class="card" id="card">
+        <div class="header">
+            <img src="https://i.ibb.co/BKH6bBwf/svuu.png" alt="شعار الجامعة" class="logo logo-right">
+            <div>
+                <h4>جامعة جنوب الوادى</h4>
+                <h3>كلية الآداب</h3>
+            </div>
+            <img src="https://i.ibb.co/tTHHFjzy/art.png" alt="شعار الكلية" class="logo logo-left">
+        </div>
+        <div class="student-info">
+            <div class="info">
+                <p><strong>اسم الطالب:</strong> <span id="student-name"></span></p>
+                <p><strong>الفرقة:</strong> <span id="student-year"></span></p>
+                <p><strong>الشعبة:</strong> <span id="specialization"></span></p>
+                <p><strong>العام الجامعي:</strong> <span id="academic-year"></span></p>
+            </div>
+            <img id="student-photo" src="default_student.jpg" alt="صورة الطالب" class="student-photo">
+        </div>
+    </div>
+    <button class="download-button" onclick="downloadCard()">تحميل الكارنيه</button>
+</div>
+
+
+<footer>
+    <p>جميع الحقوق محفوظة &copy; 2025 <a href="https://wa.me/201027888008">Ziad Hagagy</a></p>
+</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كارنيه الطالب الجامعي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="student_id.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="card">  <!-- تم إضافة id هنا -->
+            <div class="header">
+                <img src="https://i.ibb.co/BKH6bBwf/svuu.png" alt="شعار الجامعة" class="logo">
+                <h4>جامعة جنوب الوادى</h4>
+                <img src="https://i.ibb.co/tTHHFjzy/art.png" alt="art1-removebg-preview" alt="شعار الكلية" class="logo">
+            </div>
+            <h3>كلية الآداب &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+            <div class="student-info">
+                <div class="info">
+                    <p><strong>اسم الطالب:</strong> <span id="student-name"></span></p>
+                    <p><strong>الفرقة:</strong> <span id="student-year"></span></p>
+                    <p><strong>الشعبة:</strong> <span id="specialization"></span></p>
+                    <p><strong>العام الجامعي:</strong> <span id="academic-year"></span></p>
+                </div>
+                <img id="student-photo" src="student_photo.jpg" alt="صورة الطالب" class="student-photo">
+            </div>
+        </div>
+        <button onclick="downloadCard()">تحميل الكارنيه</button>
+        <button onclick="redirectToPage()">رجوع</button>
+    </div>
+    <br>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025 <a href="https://wa.me/201027888008">Ziad Hagagy</a></p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="./student_id.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <title>تسجيل بيانات الطالب</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ناف بار -->
+    <nav class="navbar">
+        <!-- لوجو النص -->
+        <div class="navlogo">كلية الآداب - قسم المكتبات</div>
+
+        <!-- الروابط -->
+        <ul class="nav-links" id="navLinks">
+            <li><a href="./index.html">تسجيل جديد</a></li>
+            <li><a href="./search.html">استعلام</a></li>
+            <li><a href="./login.html">الاحصائيات والتقارير</a></li>
+            <li><a href="./member.html">أعضاء المجموعة</a></li>
+        </ul>
+
+        <!-- زر التبديل للهواتف -->
+        <button class="toggle-btn" id="toggleBtn">
+            ☰
+        </button>
+    </nav>
+
+    <div class="container">
+        <h1><i class="fas fa-user-graduate"></i> تسجيل بيانات الطالب</h1>
+        <form id="registration-form" onsubmit="saveData(event);">
+            <div class="input-group">
+                <label for="student-name"><i class="fas fa-user"></i> اسم الطالب:</label>
+                <input type="text" id="student-name" name="student-name" required pattern="^[\u0600-\u06FF\s]{4,}$" title="يجب إدخال الاسم باللغة العربية ويكون رباعياً">
+            </div>
+
+            <div class="input-group">
+                <label for="student-year"><i class="fas fa-calendar-alt"></i> الفرقة:</label>
+                <input type="text" id="student-year" name="student-year" required>
+            </div>
+          
+          <div class="input-group">
+                <label for="specialization"><i class="fa-solid fa-building"></i> الشعبة:</label>
+                <input type="text" id="specialization" name="specialization" required>
+            </div>
+
+            <div class="input-group">
+                <label for="academic-year"><i class="fas fa-school"></i> العام الجامعي:</label>
+                <input type="number" id="academic-year" name="academic-year" required>
+            </div>
+
+            <div class="input-group">
+                <label for="student-photo"><i class="fas fa-camera"></i> صورة الطالب:</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="student-photo" name="student-photo" accept="image/*" required onchange="displayImage(event)">
+                    <label for="student-photo" class="file-label"><i class="fas fa-upload"></i> اختر صورة</label>
+                </div>
+                <img id="image-preview" class="image-preview" src="#" alt="Preview" style="display: none;">
+            </div>
+
+            <div class="button-group">
+                <button type="submit"><i class="fas fa-paper-plane" id="submit"></i> تسجيل</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025 <a href="https://wa.me/201027888008">Ziad Hagagy</a></p>
+    </footer>
+
+
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+    
+        // 🔹 إعداد Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyACSaxwz6-ef5GyvWAbDpDJKEKe-fG49s",
+            authDomain: "project-of-arts.firebaseapp.com",
+            databaseURL: "https://project-of-arts-default-rtdb.firebaseio.com",
+            projectId: "project-of-arts",
+            storageBucket: "project-of-arts.appspot.com",
+            messagingSenderId: "779880036064",
+            appId: "1:779880036064:web:8ce84af51d78d9a38ca0fd"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+    
+        window.saveData = function(event) {
+            event.preventDefault(); 
+    
+            // 🔹 جلب بيانات الفورم
+            const studentName = document.getElementById("student-name").value.trim();
+            const studentYear = document.getElementById("student-year").value.trim();
+            const specialization = document.getElementById("specialization").value.trim();
+            const academicYear = document.getElementById("academic-year").value.trim();
+            const studentPhoto = document.getElementById("student-photo").files[0];
+    
+            if (!studentName || !studentYear || !specialization || !academicYear || !studentPhoto) {
+                alert("❌ يرجى ملء جميع الحقول واختيار صورة");
+                return;
+            }
+    
+            const reader = new FileReader();
+            reader.readAsDataURL(studentPhoto);
+            reader.onload = function () {
+                const photoBase64 = reader.result;
+    
+                const studentRef = ref(database, "students/" + studentName);
+    
+                // 🔹 التحقق مما إذا كان الاسم موجودًا بالفعل
+                get(child(ref(database), "students/" + studentName))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        alert("❌ هذا الاسم مسجل بالفعل، لا يمكنك التسجيل مرة أخرى.");
+                    } else {
+                        // 🔹 حفظ البيانات في Firebase
+                        set(studentRef, {
+                            name: studentName,
+                            year: studentYear,
+                            specialization: specialization,
+                            academicYear: academicYear,
+                            photo: photoBase64  
+                        })
+                        .then(() => {
+                            // 🔹 حفظ البيانات في localStorage
+                            localStorage.setItem("studentName", studentName);
+                            localStorage.setItem("studentYear", studentYear);
+                            localStorage.setItem("specialization", specialization);
+                            localStorage.setItem("academicYear", academicYear);
+                            localStorage.setItem("studentPhoto", photoBase64);
+    
+                            alert("✅  تم حفظ البيانات بنجاح فى قاعدة البيانات");
+                            window.location.href = "./student_id.html"; // 🔹 توجيه المستخدم للصفحة الأخرى
+                        })
+                        .catch((error) => {
+                            console.error("❌ حدث خطأ: ", error);
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("❌ خطأ في التحقق من قاعدة البيانات: ", error);
+                });
+            };
+        };
+    </script>
+
+
+
+
+
+
+    <script>
+
+        function displayImage(event) {
+            const imagePreview = document.getElementById('image-preview');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function validateForm() {
+    const studentName = document.getElementById('student-name').value.trim();
+    const studentYear = document.getElementById('student-year').value.trim();
+    const specialization = document.getElementById('specialization').value.trim();
+    const academicYear = document.getElementById('academic-year').value.trim();
+    const studentPhoto = document.getElementById('student-photo').files.length;
+
+    if (studentName.split(/\s+/).length !== 4) {
+        alert('الاسم يجب أن يكون رباعياً مكوناً من 4 كلمات.');
+        return false;
+    }
+
+    if (studentName && studentYear && specialization && academicYear && studentPhoto) {
+        // تخزين البيانات في localStorage
+        localStorage.setItem('studentName', studentName);
+        localStorage.setItem('studentYear', studentYear);
+        localStorage.setItem('specialization', specialization);
+        localStorage.setItem('academicYear', academicYear);
+
+        window.location.href = 'student_id.html';
+        return false;
+    }
+
+    return false;
+}
+
+
+
+
+
+        function saveData() {
+    const studentName = document.getElementById('student-name').value.trim();
+    const studentYear = document.getElementById('student-year').value.trim();
+    const specialization = document.getElementById('specialization').value.trim();
+    const academicYear = document.getElementById('academic-year').value.trim();
+    const studentPhoto = document.getElementById('student-photo').files[0];
+
+    if (studentName.split(/\s+/).length !== 4) {
+        alert('الاسم يجب أن يكون رباعياً مكوناً من 4 كلمات.');
+        return false;
+    }
+
+    localStorage.setItem('studentName', studentName);
+    localStorage.setItem('studentYear', studentYear);
+    localStorage.setItem('specialization', specialization);
+    localStorage.setItem('academicYear', academicYear);
+
+    if (studentPhoto) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            localStorage.setItem('studentPhoto', e.target.result);
+            window.location.href = 'student_id.html'; 
+        };
+        reader.readAsDataURL(studentPhoto);
+    } else {
+        window.location.href = 'student_id.html';
+    }
+}
+
+
+
+
+
+       // جلب العناصر
+       const toggleBtn = document.getElementById('toggleBtn');
+const navLinks = document.getElementById('navLinks');
+const body = document.body;
+
+// إضافة حدث النقر على زر التبديل
+toggleBtn.addEventListener('click', () => {
+    // تبديل عرض الروابط
+    navLinks.classList.toggle('active');
+
+    // إضافة أو إزالة فئة "menu-open" من الجسم
+    body.classList.toggle('menu-open');
+});
+
+
+
+
+
+
+
+
+
+
+
+// تعطيل الزر الأيمن
+document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    // تعطيل اختصارات F12 و Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+U
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) || 
+            (e.ctrlKey && e.key === "U")) {
+            e.preventDefault();
+        }
+    });
+
+
+    </script>
+
+
+</body>
+</html>
+
+

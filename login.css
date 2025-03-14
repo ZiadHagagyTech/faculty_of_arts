@@ -1,0 +1,193 @@
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgb(210, 210, 210);
+      color: #fff;
+    }
+
+    /* تخصيص الناف بار */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    color: white;
+    position: fixed; /* تثبيت الناف بار في الأعلى */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%; /* جعل الناف بار يغطي العرض الكامل للشاشة */
+    padding: 20px 30px; /* إضافة مساحة داخلية صغيرة */
+    box-sizing: border-box; /* ضمان عدم تجاوز الحدود */
+}
+
+/* لوجو النص */
+.navlogo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ecf0f1; /* لون نص اللوجو */
+    margin-right: 20px; /* ترك مسافة صغيرة من اليمين */
+}
+
+/* الروابط */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    justify-content: center; /* وضع الروابط في منتصف الشاشة */
+    flex-grow: 1; /* تمديد الروابط لتملأ المساحة المتاحة */
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #ecf0f1; /* لون نص الروابط */
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #1abc9c; /* لون نص الروابط عند التحويم */
+}
+
+/* زر التبديل */
+.toggle-btn {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #ecf0f1; /* لون زر التبديل */
+    cursor: pointer;
+    margin-left: 20px; /* ترك مسافة صغيرة من اليسار */
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* إخفاء الروابط */
+        flex-direction: column;
+        background: linear-gradient(135deg, #2a5298, #1e3c72);
+        position: fixed; /* تثبيت القائمة في الأعلى */
+        top: 70px; /* أسفل الناف بار مباشرة */
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        z-index: 1000; /* ضمان ظهور القائمة فوق المحتوى */
+    }
+
+    .nav-links.active {
+        display: flex; /* عرض الروابط عند النقر على زر التبديل */
+    }
+
+    .toggle-btn {
+        display: block; /* إظهار زر التبديل */
+        margin-left: -5px;
+    }
+
+    /* دفع المحتوى الرئيسي لأسفل عند عرض القائمة */
+    body.menu-open .content {
+        margin-top: 200px; /* ارتفاع القائمة + هامش صغير */
+    }
+}
+
+    .container {
+        background: linear-gradient(135deg, #2a5298, #1e3c72);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #fff;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .form-group input::placeholder {
+      color: #dedede;
+    }
+
+    .form-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .form-group .toggle-password {
+      position: absolute;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .buttonn {
+      width: 100%;
+      padding: 15px;
+      background-color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .buttonn:hover {
+      background-color: #f0f0f0;
+    }
+
+    .error-message {
+      color: #ff4d4d;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* استجابة الشاشة */
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+    }
